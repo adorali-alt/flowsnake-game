@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/style.css') }}">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js"></script>  
+
+    <title>Flowsnake Game</title>
+</head>
+
+
+<body>
+<script type='module' src='./../src/app.js'></script>
+<header class="jumbotron jumbotron-fluid py-4" id="top">
+    <div class="container">
+        <h1>Flowsnake Game</h1>
+    </div>
+</header>
+
+<div class="content">
+
+    <!-- numFlags submission form -->
+    <form method="POST">
+        <input name="numFlags" id="numFlags" class="numFlags" required>
+        <input id="button" type="submit" value="enter">
+    </form>
+
+
+    <!-- flags arrangement -->
+    <div id="generator">{% block generator %}{% endblock %}</div>
+
+    <script type="text/javascript">
+
+
+        function appMounted() {
+            //numFlags = document.getElementsByClassName('numFlags')['value'];
+            return $.ajax({
+              url: "/",
+              type: "POST",
+              data: { numFlags: 7 },
+              async: false
+            });
+        }
+
+        $('#button').click(function(){
+            appMounted();     
+        });
+
+    </script>
+
+</div>
+
+<footer class="container">
+    <small>Thanks to <a href="https://github.com/andrewcb/Flowsnake">andrewcb</a></small>
+</footer>
+</body>
+</html>

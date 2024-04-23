@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block generator %}
+
+<div class="segment"></div>
+
+<script type="text/javascript">
+
+	function segSelected(seg){
+		seg.style["border-bottom"] = "7px solid green";
+
+		// return $.ajax({
+		// 	url: "/segSelected",
+		// 	type: "POST",
+		// 	data: { segId: seg.id },
+		// 	async: false
+		// });
+  	}
+
+	 function generateSegHTML(segment, type, index) {
+	 	const f = document.createElement("div");
+
+		f.classList.add("segment");//, flag.isSelected, flag.isValidNextOption);
+		f.classList.add(type);
+		f.id = segment[1][index];
+		f.style.left = (segment[0][0] * 100 + 300) + "px";
+		f.style.bottom = (segment[0][1] * 100 + 100) + "px";
+
+		f.onclick = function () {
+			segSelected(f)
+		};
+
+		// seg[2].forEach(function(attrClass) {
+		// 	f.classList.add(attrClass);
+		// }) 
+		
+		g = document.getElementById('generator');
+		g.appendChild(f);
+ 	}
+	
+	function addGenerator(flags) {
+		flags.forEach(function(flag) {
+			generateSegHTML(flag, "ne", 0)
+			generateSegHTML(flag, "se", 1)
+			generateSegHTML(flag, "s", 2)
+		})
+	}
+
+	// function markSolution(solutionIds) {
+		// solutionIds.forEach(function(id) {
+		// 	segment = document.getElementById(id);
+		// 	segment.style["border-bottom"] = "7px solid pink";
+		// }
+		
+	// }
+
+	function markCorner(c) {
+		console.log(c)
+		const d = document.createElement("div");
+		d.classList.add("dot")
+		d.style.left = (c[0] * 100 + 300) + "px";
+		d.style.bottom = (c[1] * 100 + 100) + "px";
+	 	
+		g = document.getElementById('generator');
+		g.appendChild(d);
+	}
+
+	function markStartSegments(ids) {
+		console.log(ids)
+		ids.forEach(function(id) {
+			var s = document.getElementById(id);
+			s.style["border-bottom"] = "7px solid pink";
+		})
+	}
+
+	addGenerator({{ sample["flags"] }})
+
+	markCorner({{sample["start_corner"]}})
+
+	markStartSegments({{sample["start_segments"]}})
+
+	// markSolution({{ sample["solution_ids"] }})
+
+	// markNextOptions({{sample["next_options"]}})
+
+</script>
+
+{% endblock %}
